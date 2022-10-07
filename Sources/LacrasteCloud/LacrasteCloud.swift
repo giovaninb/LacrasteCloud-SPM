@@ -238,10 +238,10 @@ public struct LacrasteCloud {
     ///   - storageType: Which database to perform the query
     ///   - numberOfRecords: Number of number of Records by default
     ///   - completion: Result object containing all fetched records or an error
-    public static func getAllPaginatedAndSorted<T: LacrasteStorage>(storageType: LacrasteType = .privateStorage(), type: T.Type = T.self, numberOfRecords: Int, _ completionHandler: @escaping PagedCompletion<T>) {
+    public static func getAllPaginatedAndSorted<T: LacrasteStorage>(storageType: LacrasteType = .privateStorage(), type: T.Type = T.self, numberOfRecords: Int, predicate: NSPredicate?, _ completionHandler: @escaping PagedCompletion<T>) {
         var listOfRecords: [T] = [] // A place to store the items as we get them
 
-        let query = CKQuery(recordType: T.reference, predicate: NSPredicate(value: true))
+        let query = CKQuery(recordType: T.reference, predicate: predicate ?? NSPredicate(value: true))
         let sortCreation = NSSortDescriptor(key: "creationDate", ascending: false)
         let sortModification = NSSortDescriptor(key: "modificationDate", ascending: false)
         query.sortDescriptors = [sortCreation, sortModification]
